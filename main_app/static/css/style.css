@@ -1,0 +1,274 @@
+:root {
+    --main-color: rgb(116, 171, 102);
+}
+body {
+    background-color: rgb(156, 169, 126);
+}
+.username {
+    margin-left: 1em;
+}
+.logo {
+    margin-left: 12px;
+    margin-top: 5px;
+}
+#sidenav-id {
+    background-color: var(--main-color);
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* CITY SHOW PAGE */
+.background-image {
+    color: white;
+    height: 250px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.city-name {
+    color: rgba(255,255,255,0.75);
+    font-size: 100px;
+    font-family: 'della respira', serif;
+    text-align: center;
+    white-space: nowrap;
+    background-color: rgba(0,0,0,0.5);
+    padding: 70px 0 70px 0;
+}
+.btn-add-post-to-city {
+    margin: 1em 0 0.7em 0;
+    width: 100%;
+}
+
+/* SEARCH BAR (base.html) */
+.search {
+    background-color: white !important;
+    padding-left: 12px !important;
+    margin-right: 10px !important;
+    height: 35px !important;
+    width: 200px !important;
+}
+.search:focus {
+    background-color: white !important;
+    border: 2px solid rgb(107, 213, 206) !important;
+}
+.blackk {
+    color: black !important;
+}
+.city-wrapper {
+    display: none;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
+    position: absolute;
+    z-index: 1;
+    max-height: 300px;
+    width: 200px;
+    white-space: nowrap;
+    overflow: scroll;
+}
+.city-wrapper > a {
+    color: gray;
+    text-transform: lowercase;
+    background: #eee;
+    font-size: 20px;
+    display: inline;
+}
+.city-wrapper > a:hover {
+    background: #ccc;
+}
+
+
+
+/* PROFILE PAGE */
+.profile-card-flex {
+    display: flex;
+    flex-direction: row;
+}
+.profile-picture {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+}
+.profile-info {
+    margin-left: 2rem;
+}
+.btn-browse-picture {
+    width: 20px;
+    height: 30px;
+    padding-left: 0;
+    padding-right: 23px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.edit-btn-profile {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+/* COLORS */
+.gray {
+    color: #aaa;
+}
+.dark-gray {
+    color: #555;
+}
+
+
+/* GENERAL */
+.relative {
+    position: relative;
+}
+.hide {
+    display: none;
+}
+.hover-to-see {
+    opacity: 0.5;
+}
+.hover-to-see:hover {
+    opacity: 1;
+}
+.font {
+    font-family: 'della respira', serif;
+}
+.align-center {
+    text-align: center;
+}
+.mar-r-4 {
+    margin-right: 4px;
+}
+
+
+/* SPECIFIC */
+.height-above-tpp {
+    height: 5px;
+}
+.tiny-profile-picture {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+.card-reply { 
+    margin-left: 50px !important; 
+}
+.your-post {
+    border: 3px solid var(--main-color);
+}
+.btn-edit-post {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.btn-del-post {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+}
+
+/* HOME PAGE */
+.boxed-w {
+    border: 10px solid var(--main-color);
+    font-weight: 900;
+    margin-right: 10px;
+}
+.heading-home {
+    background-color: rgb(227, 249, 176);
+    background: linear-gradient(0.25turn, rgb(188, 206, 145), rgb(227, 249, 176), rgb(188, 206, 145));
+    padding: 0.5em 0 0.5em 0;
+}
+.grid-cities-images {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 10px;
+}
+.img-city-home {
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+}
+.img-city-home:hover {
+    border: 5px solid var(--main-color);
+}
+.hover-to-undarken {
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+}
+.hover-to-undarken:hover {
+    background-color: rgba(0,0,0,0);
+}
+
+
+/* ABOUT PAGE */
+.about-portrait {
+    width: 100%;
+}
+.white-card {
+    background-color: white;
+    padding: 1em;
+    border-radius: 0.5em;
+    max-width: 600px;
+    /* font-size: 15px; */
+}
+
+/* OVERRIDE MATERIALIZE */
+.nav-wrapper {
+    background-color: var(--main-color);
+}
+.container {
+    background-color: rgb(188, 206, 145);
+    background: linear-gradient(rgb(188, 206, 145), rgba(0,0,0,0));
+    max-width: 1200px;
+    padding: 1em 0 10em 0;
+}
+
+
+
+/* MEDIA QUERIES */
+@media (min-width: 601px) {
+    .sidenav-trigger {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo {
+        margin-left: 0;
+    }
+    .search {
+        width: 200px !important;
+        margin-right: 25px !important;
+    }
+    .grid-cities-images {
+        grid-template-columns: repeat(2,1fr);
+    }
+    .descrip {
+        font-size: 16px;
+    }
+    .city-name {
+        font-size: 80px;
+        padding: 81px 0 81px 0;
+    }
+}
+
+@media (max-width: 414px) {
+    .grid-cities-images {
+        grid-template-columns: repeat(1,1fr);
+    }
+    .city-name {
+        font-size: 50px;
+        padding: 98px 0 98px 0;
+    }
+}
+
+@media (max-width: 369px) {
+    .logo {
+        display: none;
+    }
+}

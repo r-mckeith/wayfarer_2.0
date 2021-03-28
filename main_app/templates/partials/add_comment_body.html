@@ -1,0 +1,19 @@
+<div id="comment-add-modal{{post.id}}" class="modal">
+  <div class="modal-content">
+    <div class="card">
+      <div class="card-content">
+        <h4>Add comment</h4>
+        <form action="{% url 'comment_new' %}" method="POST">
+          {% csrf_token %}
+          <div class="input-field">
+            <textarea class="materialize-textarea" id="new-body" type="text" name="content" data-length="500" maxlength="500" required></textarea>
+          </div>
+          <div class="modal-footer">
+          <input type="hidden" class="btn" value="{{ post.id }}" name="postId">
+          <input type="submit" value="Add Comment">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

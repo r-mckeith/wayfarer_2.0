@@ -1,0 +1,266 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/png" href="https://user-images.githubusercontent.com/77288642/111952755-d488c400-8aa2-11eb-9d91-1a8ef97b7479.png">
+  {% comment %} FONTS {% endcomment %}
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Della+Respira&display=swap" rel="stylesheet">
+  {% comment %} MATERIALIZE ICONS {% endcomment %}
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  {% comment %} MATERIALIZE CSS {% endcomment %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  {% comment %} STATIC CSS {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% comment %} MATERIALIZE JS {% endcomment %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <title>Wayfarer</title>
+</head>
+<body>
+
+<nav>
+  <div class="nav-wrapper">
+    <a href="{% url 'home' %}" class="logo"><img src="https://user-images.githubusercontent.com/77288642/111952755-d488c400-8aa2-11eb-9d91-1a8ef97b7479.png" alt=""></a>
+    <a href="#" data-target="sidenav-id" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-small-and-down">
+      {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'profile' user.id %}">
+            <img src="{{user.profile.photo_url}}" class="tiny-profile-picture mar-r-4" alt="profile picture">
+            {{user}}
+          </a>
+        </li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+      {% else %}
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        <li><a href="{% url 'login' %}">Log In</a></li>
+      {% endif %}
+    </ul>
+    <ul class="right">
+      <li>
+        <!-- CITY SEARCH -->
+        <input type="search" placeholder="search cities [Ctrl + S]" class="search">
+        <!--CITY DROPDOWN ( CSS GRID)-->
+        <div class="city-wrapper">
+          {% for city in cities %}
+            <a href="{% url 'city_show' city.id %}" style="order: -{{city.post_set.all.count}};" cityName="{{city.name}}" numPosts="{{city.post_set.all.count}}" class="city-option">{{city.name}}</a>
+          {% endfor %}
+          {% if user.is_authenticated %}
+          <a class="modal-trigger" href="#add-city-modal">+ Add A City</a>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="sidenav-id">
+  {% if user.is_authenticated %}
+    <li>
+      <a href="{% url 'profile' user.id %}">
+        <img src="{{user.profile.photo_url}}" class="tiny-profile-picture mar-r-4" alt="profile picture">
+        {{user}}
+      </a>
+    </li>
+    <li><a href="{% url 'logout' %}">Log Out</a></li>
+  {% else %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'about' %}">About</a></li>
+    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+    <li><a href="{% url 'login' %}">Log In</a></li>
+  {% endif %}
+</ul>
+<!-- ADD CITY - MODAL BODY -->
+  <div id="add-city-modal" class="modal">
+    <div class="modal-content">
+      <h4>Add A City</h4>
+      <form action="{% url 'city_new' %}" method="POST">
+        {% csrf_token %}
+        {{city_form.as_p}}
+        <div class="modal-footer">
+          <input type="submit" value="Add City">
+        </div>
+      </form>
+    </div>
+  </div>
+
+<div class="container">
+  {% block content  %}
+  {% endblock content %}
+</div>
+
+<script>
+const sidenavEl = document.querySelectorAll('.sidenav')
+M.Sidenav.init(sidenavEl)
+
+// ********* ADDS FUNCTIONALITY TO SEARCH BAR
+
+const searchEl = document.querySelector('.search')
+const cityWrapperEl = document.querySelector('.city-wrapper')
+const cityOptionEls = document.querySelectorAll('.city-wrapper .city-option')
+let cityElsOrdered = []
+let selectedIndex = null
+let selectedCityEl = null
+let controlDown = false;
+
+//updates link elements in 'cityElsOrdered'
+updateCityOptions()
+
+searchEl.addEventListener('keydown', (e) => {
+  if ("{{cities}}") {
+    for (let cityEl of cityOptionEls) {
+      cityEl.style.backgroundColor = '#eee'
+    }
+
+    setTimeout(() => {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Enter') {
+        selectedIndex = null
+
+        const inputStr = searchEl.value.toLowerCase()
+        if (inputStr.length !== 0) {
+          for (let cityEl of cityOptionEls) {
+            cityEl.style.display = 'block'
+            const cityNameLower = cityEl.getAttribute('cityName').toLowerCase()
+            //if input string is present in city name, assign order value and highlight matching charcters
+            if (cityNameLower.indexOf(inputStr) !== -1) {
+              cityEl.style.order = `-${inputStr.length.toString()}`
+              cityEl.innerHTML = cityNameLower.replace(inputStr, `<span class="blackk">${inputStr}</span>`)
+            } else {
+            //if input string is NOT present in city name:
+              cityEl.style.order = "0"
+              cityEl.style.display = 'none'
+            }
+          }
+          updateCityOptions()
+
+          //if search matches at least one city, then select the first city (useful for when enter is pressed)
+          if (cityElsOrdered.length >= 1) {
+            selectCityOption(0)
+            searchEl.style.color = 'black'
+          } else {
+            searchEl.style.color = 'red'
+          }
+          
+          
+        } else {
+          //if search input is empty, order cities based on number of posts
+          for (let cityEl of cityOptionEls) {
+            cityEl.style.display = 'block'
+            cityEl.style.order = '-' + cityEl.getAttribute('numposts')
+            cityEl.innerHTML = cityEl.getAttribute('cityName').toLowerCase()
+          }
+          updateCityOptions()
+        }
+      }
+
+      if (e.key === 'Enter') {
+        //if search input is empty and no city is selected, click the first city
+        if (searchEl.value === '' && selectedIndex === null) {
+          selectCityOption(0)
+          selectedCityEl.click()
+        } else if (selectedIndex !== null) {
+          //otherwise, click the selected city
+          selectedCityEl.click()
+        }
+      }
+    },20)
+  }
+})
+
+
+//ADD EVENT LISTENERS
+
+//press up/down arrow to cycle through city dropdown
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement === searchEl) {
+    if (e.key === 'ArrowUp') {
+      if (cityElsOrdered.length >= 1) {
+        if (selectedIndex === null || selectedIndex - 1 < 0) {
+          selectCityOption(cityElsOrdered.length - 1)
+        } else {
+          selectedIndex--
+          selectCityOption(selectedIndex)
+        }
+      }
+    } else if (e.key === 'ArrowDown') {
+      if (cityElsOrdered.length >= 1) {
+        if (selectedIndex === null || selectedIndex + 1 >= cityElsOrdered.length) {
+          selectCityOption(0)
+        } else {
+          selectedIndex++
+          selectCityOption(selectedIndex)
+        }
+      }
+    }
+  }
+})
+
+//show or hide city dropdown, depending on whether the search bar is focused
+searchEl.addEventListener('focusin', () => {
+  cityWrapperEl.style.display = 'grid'
+})
+searchEl.addEventListener('focusout', () => {
+  setTimeout(() => {
+    if (document.activeElement !== searchEl) {
+      cityWrapperEl.style.display = 'none'
+    }
+  }, 150)
+})
+
+//track up/down state of 'Control' key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Control') controlDown = true
+})
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'Control') controlDown = false
+})
+
+//press Control + s to toggle search bar focus
+document.addEventListener('keydown', (e) => {
+  if (controlDown && e.key === 's') {
+    if (document.activeElement === searchEl) {
+      searchEl.blur()
+    } else {
+      searchEl.focus()
+    }
+  }
+  //press escape to unfocus search bar
+  if (e.key === 'Escape') searchEl.blur()
+})
+
+//FUNCTIONS
+
+function updateCityOptions() {
+  const cityElAndOrderPairs = []
+  for (let cityEl of cityOptionEls) {
+    if (searchEl.value === '') {
+      cityElAndOrderPairs.push([cityEl, cityEl.style.order])
+    } else if (cityEl.style.order !== '0') {
+      cityElAndOrderPairs.push([cityEl, cityEl.style.order])
+    }
+  }
+  cityElAndOrderPairs.sort((a,b) => a[1] - b[1])
+
+  cityElsOrdered = []
+  cityElAndOrderPairs.forEach(pair => {
+    cityElsOrdered.push(pair[0])
+  })
+}
+
+function selectCityOption(index) {
+  selectedCityEl = cityElsOrdered[index]
+  selectedCityEl.style.backgroundColor = '#ccc'
+  selectedIndex = index
+  selectedCityEl.focus()
+  searchEl.focus()
+}
+</script>
+</body>
+</html>

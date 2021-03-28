@@ -1,0 +1,15 @@
+<script>
+  const modals = document.querySelectorAll('.modal');
+  M.Modal.init(modals);
+  
+  const textNeedCount = document.querySelectorAll('#edit-body');
+  M.CharacterCounter.init(textNeedCount);
+
+let btns = document.querySelectorAll('.reply-modal-trigger');
+for (let i = 0; i < btns.length; i++) {
+	btns[i].addEventListener('click', function (event) {
+		let commentId = this.dataset.commentId 
+    document.getElementById('comment-id').setAttribute('value', commentId)
+	})
+} 
+</script>

@@ -1,0 +1,28 @@
+<div class="card {% if post.user == request.user %}your-post{% endif %}">
+  <div class="card-content">
+    {% comment %} SHOW POST MODAL TRIGGER {% endcomment %}
+    <div class="card-title">
+      <a class="modal-trigger" href="#post-modal{{post.id}}">{{ post.title }}</a>
+      <i class="material-icons">location_city</i>
+      <a href="{% url 'city_show' post.city.id %}">{{post.city.name}}</a>
+      
+      <p>
+        <small>
+          <small>
+            <span class="gray">by:</span>
+            <img src="{{post.user.profile.photo_url}}" class="tiny-profile-picture" alt="profile picture">
+            &nbsp;<a href="{% url 'profile' post.user.id %}" class="dark-gray">{{post.user.username}}</a>
+          </small>
+        </small>
+      </p>
+      
+    </div>
+    <p>{{ post.body|truncatechars_html:200 }}</p>
+    {% if post.user == user %}
+      {% include '../partials/edit_post.html' with post=post %}
+      {% include '../partials/delete_post.html' with post=post %}
+    {% endif %}
+  </div>
+</div>
+
+

@@ -1,0 +1,28 @@
+<script>
+  const modals = document.querySelectorAll('.modal');
+  M.Modal.init(modals);
+  
+  const textNeedCount = document.querySelectorAll('#edit-body');
+  M.CharacterCounter.init(textNeedCount);
+
+  //if a new profile picture is selected, then submit the form
+  const chooseFileEl = document.querySelector('.choose-file')
+  chooseFileEl.addEventListener('change', () => {
+    document.querySelector('.picture-form').submit()
+  })
+
+  //when you click the upload picture icon, open window to browse for file
+  const uploadPictureBtn = document.querySelector('.btn-browse-picture')
+  uploadPictureBtn.addEventListener('click', () => {
+    chooseFileEl.click()
+  })
+
+let btns = document.querySelectorAll('.reply-modal-trigger');
+for (let i = 0; i < btns.length; i++) {
+	btns[i].addEventListener('click', function (event) {
+		let commentId = this.dataset.commentId 
+    document.getElementById('comment-id').setAttribute('value', commentId)
+	})
+} 
+
+</script>

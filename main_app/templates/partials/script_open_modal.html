@@ -1,0 +1,10 @@
+<script>
+if ('{{request.session.modeltoopen}}' !== '') {
+    const modalTrigger = document.createElement('a')
+    modalTrigger.setAttribute('class', 'modal-trigger')
+    modalTrigger.setAttribute('href', '#post-modal{{request.session.modeltoopen}}')
+    document.body.appendChild(modalTrigger)
+    modalTrigger.click()
+    modalTrigger.remove()
+}
+</script>

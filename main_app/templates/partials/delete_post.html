@@ -1,0 +1,4 @@
+<form action="{% url 'post_delete' post.id %}" method="POST" onclick="return confirm('Are you sure you want to delete this?')">
+  {% csrf_token %}
+  <button class="btn-del-post hover-to-see" type="submit"><i class="material-icons">delete</i></button>
+</form>

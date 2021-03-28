@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content  %}
+
+{% include 'partials/profile_card.html' %}
+
+{% for post in posts %}
+
+  {% include '../partials/render_posts.html'  with post=post%}
+  {% include '../partials/show_post_body_post.html' with post=post %}
+  {% include '../partials/show_post_body_comments.html' with post=post %}
+  {% include '../partials/modal_footer.html' %}
+  {% include '../partials/add_comment_body.html' with post=post %}
+  {% include '../partials/add_reply_body.html' %}
+
+{% endfor %}
+
+
+{% include '../partials/extraneous_divs.html' %}
+{% include '../partials/script_profile.html' %}
+
+
+{% endblock content %} 

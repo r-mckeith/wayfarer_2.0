@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content  %}
+<br>
+<h1 class="font align-center heading-home"><span class="boxed-w">W</span>ayfarer</h1>
+
+<h5 class="align-center dark-gray descrip" style="font-family: serif;">Read and write reviews about the world's most popular cities! <br>Get to know your fellow travelers by commenting on their posts!</h5>
+<br>
+
+<div class="grid-cities-images">
+    {% for city in cities %}
+    <a href="{% url 'city_show' city.id %}">
+        <div style="background-image: url('{{city.photo_url}}')" class="img-city-home">
+            <div class="hover-to-undarken"></div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock content  %}

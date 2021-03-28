@@ -1,0 +1,6 @@
+<h3>Comments</h3>
+    {% for comment in comments %}
+      {% if post.id == comment.post_id %}
+        {% include '../partials/comment.html' %}
+      {% endif %}
+    {% endfor %}

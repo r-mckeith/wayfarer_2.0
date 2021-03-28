@@ -1,0 +1,22 @@
+<button class="modal-trigger btn-edit-post hover-to-see" href="#post-edit-modal{{post.id}}"><i class="material-icons">edit</i></button> 
+<div id="post-edit-modal{{post.id}}" class="modal">
+  <div class="modal-content">
+    <div class="card">
+      <div class="card-content">
+        <h4>Edit Post</h4>
+        <form action="{% url 'post_edit' post.id %}" method="POST">
+          {% csrf_token %}
+          <label>Title:</label>
+          <input type="text" value="{{ post.title }}" name="title" required>
+          <div class="input-field">
+            <label>Description:</label>
+            <textarea class="materialize-textarea" id="edit-body" type="text" name="body" data-length="500" maxlength="500" required>{{ post.body }}</textarea>
+          </div>
+          <div class="modal-footer">
+          <input type="submit" value="Update">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

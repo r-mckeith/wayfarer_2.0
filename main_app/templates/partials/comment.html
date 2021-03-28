@@ -1,0 +1,26 @@
+<div>  
+  <div class="card" id="comment-{{ comment.id}}">
+    <div class="card-content" id="comment-{{ comment.id }}">
+      <p>{{comment.content}}</p>
+      <div class="height-above-tpp"></div>
+      <img src="{{comment.user.profile.photo_url}}" class="tiny-profile-picture" alt="profile picture">
+      <small>{{comment.user}}</small>  
+      <small>{{comment.posted}}</small>
+      {% comment %} ADD REPLY MODAL TRIGGER FROM COMMENTS {% endcomment %}
+      <button class="modal-trigger reply-modal-trigger" data-comment-id="{{ comment.id }}" href="#reply-modal">Add Reply</button>
+    </div>
+  </div>
+    {% for reply in comment.replies.all %}
+      <div class="card card-reply">
+        <div class="card-content">
+          <p>{{reply.content}}</p>
+          <div class="height-above-tpp"></div>
+          <img src="{{reply.user.profile.photo_url}}" class="tiny-profile-picture" alt="profile picture">
+          <small>{{reply.user}}</small>  
+          <small>{{reply.posted}}</small>
+          {% comment %} ADD REPLY MODAL TRIGGER FROM REPLY {% endcomment %}
+          <button class="modal-trigger reply-modal-trigger" data-comment-id="{{ reply.id }}" href="#reply-modal">Add Reply</button>
+        </div>
+      </div>
+    {% endfor %}
+</div>

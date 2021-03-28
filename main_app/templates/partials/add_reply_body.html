@@ -1,0 +1,19 @@
+<div id="reply-modal" class="modal replyModal">
+  <div class="modal-content">
+    <div class="card">
+      <div class="card-content">
+        <h4>Add Reply</h4> 
+        <form action="{% url 'reply_new' %}" method="POST">
+          {% csrf_token %}
+          <div class="input-field">
+            <textarea class="materialize-textarea" id="new-body" type="text" name="content" data-length="500" maxlength="500" required></textarea>
+          </div>
+          <div class="modal-footer">
+          <input id="comment-id" type="hidden" class="btn" value="" name="replyId">
+          <input type="submit" value="Add Reply">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>     
