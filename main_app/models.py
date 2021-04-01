@@ -24,7 +24,6 @@ class Post(models.Model):
   title = models.CharField(max_length=200)
   body = models.TextField(max_length=500)
   created_at = models.DateTimeField(auto_now_add=True)
-  # check_time = check_time
   city = models.ForeignKey(City, on_delete=models.CASCADE)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
 
